@@ -87,10 +87,11 @@ class PatientControler extends Controller
     public function show($id)
     {
         //return view
-        
+        $user = \App\User::find($id);
         $patient = \App\Patient::where('user_id', $id)->first();
         // $patient = \App\Patient::find('user_id', $id);
-        return view('patients.home')->with('patient', $patient);
+        return view('patients.home')->with('patient', $patient)
+                                    ->with('user', $user);
     }
 
     /**
@@ -187,6 +188,9 @@ class PatientControler extends Controller
                                 <button class="btn-xs btn btn-primary edit-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-edit"></i> Edit
                                 </button>
+                                <button class="btn-xs btn btn-danger delete-data-btn" data-id="'.$column->id.'">
+                                    <i class="fa fa-trash-o"></i> Delete
+                                </button> 
                                 <button class="btn-xs btn btn-danger delete-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-trash-o"></i> Delete
                                 </button> 

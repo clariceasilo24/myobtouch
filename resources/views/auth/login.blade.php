@@ -52,20 +52,35 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#intro">Home</a></li>
-            <li><a href="#doctor">About Us</a></li>
-            <li><a href="#facilities">Contact Us</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="index.html">Prenatal check-up</a></li>
-                <li><a href="index-form.html">PAP Smear</a></li>
-                <li><a href="index-video.html">Ultrasound</a></li>
-                <li><a href="#">Cervical Cancer Screening and Prevention</a></li>
+            <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                {{-- <li><a href="{{ url('/patients') }}">Patients</a></li> --}}
+                <li><a href="{{ url('/services') }}">Services</a></li>
+{{--                 <li><a href="#facilities">Appointments</a></li>
+                <li><a href="#facilities">Check Ups</a></li>
+                <li><a href="#facilities">Users</a></li> --}}
+
+                @guest
+                <li><a href="{{ url('/login') }}">Log In</a></li>
+                @else
+                  
+                  @if(Auth::user()->account_type == 'admin')
+                  <li><a href="{{ url('/admin/home') }}"> <i class="fa fa-bank"></i> Admin Page</a></li>
+                  @elseif(Auth::user()->account_type == 'secretary')
+                  <li><a href="{{ url('/admin/home') }}"></a></li>
+                  @else
+                  <!-- return Auth::user()->id; -->
+                  <li><a href="{{ url('/patients/appointments') }}">My Appointments</a></li>
+                  <li><a href="{{ url('/patients/home/' .Auth::user()->id. '/' ) }}">My Profile</a></li>
+                  <li><a  href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="lnr lnr-exit"></i> <span>Sign out</span></a> 
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                  </li>
+                  <!-- <li><a href="{{ url('/admin/home') }}">Patient</a></li> -->
+                  @endif
+                @endguest
+                </li>
               </ul>
-            <li><a href="#pricing">Log In</a></li>
-            </li>
-          </ul>
         </div>
         <!-- /.navbar-collapse -->
       </div>
@@ -86,7 +101,7 @@
           <div class="panel panel-default"> 
             <div class="panel-body">
               <div class="section-header">
-                <h3 class="section-title">Add User</h3>
+                <h3 class="section-title">Log In</h3>
                 <p class="section-description">Log In and start using myOBtouch!</p>
               </div>
 

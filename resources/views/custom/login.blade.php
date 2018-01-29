@@ -30,10 +30,10 @@
         <div class="container">
           <div class="row">
             <div class="col-sm-6 col-md-6">
-              <p class="bold text-left">Monday - Saturday, 8am to 10pm </p>
+              <p class="bold text-left">Monday - Friday (3:00PM-6:00PM) Saturday (12:00PM-3:00PM)</p>
             </div>
             <div class="col-sm-6 col-md-6">
-              <p class="bold text-right">Call us now +62 008 65 001</p>
+              <p class="bold text-right">Call us now +63 949 990 7246</p>
             </div>
           </div>
         </div>
@@ -53,18 +53,11 @@
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#intro">Home</a></li>
-            <li><a href="#doctor">About Us</a></li>
-            <li><a href="#facilities">Contact Us</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="index.html">Prenatal check-up</a></li>
-                <li><a href="index-form.html">PAP Smear</a></li>
-                <li><a href="index-video.html">Ultrasound</a></li>
-                <li><a href="#">Cervical Cancer Screening and Prevention</a></li>
-              </ul>
-            <li><a href="#pricing">Log In</a></li>
-            </li>
+                {{-- <li><a href="{{ url('/patients') }}">Patients</a></li> --}}
+                <li><a href="{{ url('/services') }}">Services</a></li>
+{{--                 <li><a href="#facilities">Appointments</a></li>
+                <li><a href="#facilities">Check Ups</a></li>
+                <li><a href="#facilities">Users</a></li> --}}
           </ul>
         </div>
         <!-- /.navbar-collapse -->

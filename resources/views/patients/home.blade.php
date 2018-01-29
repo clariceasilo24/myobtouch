@@ -3,12 +3,6 @@
 
 @section('body')
 
-
-  
-
-  <!--==========================
-      Contact Section
-    ============================-->
     <br>
     <br>
     <br>
@@ -19,124 +13,97 @@
   <section id="contact">
       <div class="container wow fadeInUp">
         <div class="section-header">
-          <h3 class="section-title">My Record</h3> 
-          <!-- <button type="button" class="btn btn-info"><a href="{{ url('/home') }}"> Add a New Patient Record </a></button><br><br> -->
+          <h2>  {{ $patient->firstname }} {{ $patient->lastname }} </h2>
         </div>
       </div>
 
       <div class="container">
-        <div class="row">
-          <!-- <form id="serviceform" action="/services" method="POST"> -->
-          {!! Form::open(array('url' => url('/patients/home/'.Auth::user()->id), 'method' => 'PATCH', 'id' => 'add-patients-form')) !!} 
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                      <label for="firstname">Firstname</label>
-                      <input type="text" id="firstname" name="firstname" placeholder="Enter Firstname" class="form-control" autocomplete="false" value="{{ $patient->firstname }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="lastname">Lastname</label>
-                      <input type="text" id="lastname" name="lastname" placeholder="Enter Lastname" class="form-control" autocomplete="false" value="{{ $patient->lastname }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="nickname">Nickname</label>
-                      <input type="text" id="nickname" name="nickname" placeholder="Enter Nickname" class="form-control" autocomplete="false" value="{{ $patient->nickname }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="mobile_no">Mobile No.</label>
-                      <input type="text" id="mobile_no" name="mobile_no" placeholder="Enter Mobile No." class="form-control" autocomplete="false" value="{{ $patient->mobile_no }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-2">
-                      <label for="birthdate">Date of Birth</label>
-                      <input type="date" id="birthdate" name="birthdate" placeholder="Enter Date of Birth" class="form-control" autocomplete="false" value="{{ $patient->birthdate }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-2">
-                      <label for="firstname">Gender</label> 
-                      <select class="form-control" name="gender" id="gender">
-                        <option disabled selected>Select Gender</option>
-                        <option {{ $patient->gender == 'Male' ? 'selected':'' }}>Male</option>
-                        <option {{ $patient->gender == 'Female' ? 'selected':'' }}>Female</option>
-                      </select>
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-2">
-                      <label for="status">Status</label> 
-                      <select class="form-control" name="status" id="status">
-                        <option disabled selected>Select Staus</option>
-                        <option {{ $patient->status == 'Single' ? 'selected':'' }}>Single</option>
-                        <option {{ $patient->status == 'Married' ? 'selected':'' }}>Married</option>
-                      </select>
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="address">Address</label>
-                      <input type="text" id="address" name="address" placeholder="Enter Address" class="form-control" autocomplete="false" value="{{ $patient->address }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                      <label for="occupation">Occupation</label>
-                      <input type="text" id="occupation" name="occupation" placeholder="Enter Occupation" class="form-control" autocomplete="false" value="{{ $patient->occupation }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="email">Email</label>
-                      <input type="email" id="email" name="email" placeholder="Enter Email" class="form-control" autocomplete="false" value="{{ $patient->email }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <br>
-                    <div class="form-group col-md-4">
-                      <label for="p_firstname">Firstname</label>
-                      <input type="text" id="p_firstname" name="p_firstname" placeholder="Enter Firstname" class="form-control" autocomplete="false" value="{{ $patient->p_firstname }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="p_lastname">Lastname</label>
-                      <input type="text" id="p_lastname" name="p_lastname" placeholder="Enter Lastname" class="form-control" autocomplete="false" value="{{ $patient->p_lastname }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="reffered_by">Reffered By</label>
-                      <input type="text" id="reffered_by" name="reffered_by" placeholder="Enter Reffered By" class="form-control" autocomplete="false" value="{{ $patient->reffered_by }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                      <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" autocomplete="false" value="{{ $patient->user->username }}">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="false">
-                      <span class="help-text text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-3">
-                      <label for="exampleInputPassword1">Confirm Password</label>
-                      <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirm Password" autocomplete="false">
-                    </div>
-                </div>
-              {!! Form::submit('Update', ['class' => 'btn submit-btn btn-primary btn-gradient pull-right']) !!}
-              {!! Form::close() !!}
-                
-          <!-- </form> -->
-        </div>
+        <p>My profile information.</p>  
+        <div class="col-lg-6">
+        <div class="table-responsive"></div>       
+            <table class="table" style="width:100%">
+              <thead>
+              </thead>
+              <tbody>
+                <tr>
+                  <td width="30%">First Name:</td>
+                  <td width="70%"><b>{{ $patient->firstname }}</b></td>
+                </tr>
+                <tr>
+                  <td>Last Name:</td>
+                  <td><b>{{ $patient->lastname }}</b></td>
+                </tr>
+                <tr>
+                  <td>Nickname:</td>
+                  <td><b>{{ $patient->nickname }}</b></td>
+                </tr>
+                <tr>
+                  <td>Date of Birth:</td>
+                  <td><b>{{ $patient->birthdate }}</b></td>
+                </tr>
+                <tr>
+                  <td>Gender:</td>
+                  <td><b>{{ $patient->gender }}</b></td>
+                </tr>
+                <tr>
+                  <td>Status:</td>
+                  <td><b>{{ $patient->status }}</b></td>
+                </tr>
+                <tr>
+                  <td>Occuptaion:</td>
+                  <td><b>{{ $patient->occuptaion }}</b></td>
+                </tr>
+                <tr>
+                  <td>Address:</td>
+                  <td><b>{{ $patient->address }}</b></td>
+                </tr>
+                <tr>
+                  <td>Partner's Firstname:</td>
+                  <td><b>{{ $patient->p_firstname }}</b></td>
+                </tr>
+                <tr>
+                  <td>Partner's Lastname:</td>
+                  <td><b>{{ $patient->lastname }}</b></td>
+                </tr>
+                <tr>
+                  <td>Referred by:</td>
+                  <td><b>{{ $patient->referred_by }}</b></td>
+                </tr>
+                <tr>
+                  <td>Mobile No.:</td>
+                  <td><b>{{ $patient->mobile_no }}</b></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <button type="button" class="btn btn-primary">Update Profile</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-6">
+        <div class="table-responsive"></div>       
+            <table class="table" style="width:100%">
+              <thead>
+              </thead>
+              <tbody>
+                <tr>
+                  <td width="30%">Username:</td>
+                  <td width="70%"><b>{{ $user->username }}</b></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <button type="button" class="btn btn-success">Update Account</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
       </div>
 
-      <form id="serviceform" action="/services" method="POST">
-
-
-      </form>
+      
     </section><!-- #contact -->
 
     <!-- Core JavaScript Files -->

@@ -87,7 +87,7 @@
                   @else
                   <!-- return Auth::user()->id; -->
                   <li><a href="{{ url('/patients/appointments') }}">My Appointments</a></li>
-                  <li><a href="{{ url('/patients/home/' .Auth::user()->id. '/' ) }}">My Records</a></li>
+                  <li><a href="{{ url('/patients/home/' .Auth::user()->id. '/' ) }}">My Profile</a></li>
                   <li><a  href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="lnr lnr-exit"></i> <span>Sign out</span></a> 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
