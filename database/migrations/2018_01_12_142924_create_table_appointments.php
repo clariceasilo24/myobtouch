@@ -15,7 +15,7 @@ class CreateTableAppointments extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('date_time')->nullable()->unique();
+            $table->date('date_time')->nullable();
             //$table->enum('status',['pending', 'served', 'cancelled', 'ongoing', 'walk_in'])
             $table->enum('status',['pending', 'served','cancelled'])->default('pending');
             

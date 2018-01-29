@@ -2,11 +2,11 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-      <h4 class="modal-title">Edit</h4>
+      <h4 class="modal-title">Edit Appointment</h4>
     </div>
  
 
-    {!! Form::open(array('url' => url('/admin/appointments/'.$appointment->id), 'method' => 'POST', 'id' => 'add-services-form')) !!} 
+    {!! Form::open(array('url' => url('/admin/appointments/'.$appointment->id), 'method' => 'PATCH', 'id' => 'edit-services-form')) !!} 
     <div class="modal-body">
       <!-- <div class="form-group">
           <label for="status">Status</label>
@@ -57,12 +57,7 @@
         <div class="col-md-6">
           <div class="form-group">
               <label for="description">Time</label>
-              <select class="form-control" name="timeslot_id"> 
-                @foreach($time_slots as $time_slot)
-                  <option value="{{ $time_slot->id }}" {{$appointment->timeslot_id == $time_slot->id ? 'selected':''}}>
-                    {{ date('H:i A', strtotime($time_slot->from)).' - '.date('H:i A', strtotime($time_slot->to)) }}
-                  </option>
-                @endforeach
+              <select class="form-control timeslot_id_2" name="timeslot_id" id="timeslot_id">  
               </select>
               <span class="help-text text-danger"></span>
           </div>
@@ -87,16 +82,16 @@
  
 <script type="text/javascript">
   $(function(){ 
-      $("#add-services-form").on('submit', function(e){
+      $("#edit-services-form").on('submit', function(e){
         e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
         var $form = $(this);
         var $url = $form.attr('action');
         var formData = {}; 
         
         $.ajax({
-          type: 'POST',
+          type: 'PATCH',
           url: $url,
-          data: $("#add-services-form").serialize(), 
+          data: $("#edit-services-form").serialize(), 
           success: function(result){
             if(result.success){
               swal({
@@ -110,8 +105,7 @@
                   icon: "error"
                 });
             }
-            $("#services-table").DataTable().ajax.url( '/admin/get-services' ).load();
-           
+            $("#appointments-table").DataTable().ajax.url( '/admin/get-appointments' ).load();
           },
           error: function(xhr,status,error){
             var response_object = JSON.parse(xhr.responseText); 
@@ -120,5 +114,45 @@
         });
 
       });
+
+
+      $("#date_time").change(function(){
+        getAvalable();
+      });
+       
+      function getAvalable(){
+              $.ajax({
+                url: '/admin/getAvalableTime/'+$("#date_time").val()+'/'+{{ $appointment->id }},         
+                success: function(data) {
+                  var str = ''; 
+                  for(var i = 0 ; i < data.records.length ; i++){
+                    var from  = data.records[i]['from']+'';
+                    var to = data.records[i]['to']+'';
+                    var f = from.split(':');
+                    var t = to.split(':');
+                    var f_ampm = '';
+                    var t_ampm = '';
+                    if(f > 11){
+                        f_ampm="PM";
+                    }else{
+                        f_ampm="AM";
+                    }
+                    if(t > 11){
+                        t_ampm="PM";
+                    }else{
+                        t_ampm="AM";
+                    }
+                    var selected = '';
+                    if({{ $appointment->timeslot_id }} == data.records[i]['id']){
+                      selected = 'selected';
+                    }
+                    str+='<option value="'+data.records[i]['id']+'" '+selected+'>'+f[0]+':'+f[1]+' '+f_ampm+' - '+t[0]+':'+t[1]+' '+t_ampm+'</option>';
+                  }
+                  $('.timeslot_id_2').html(str);
+                }
+              });  
+      }
+       getAvalable();
+       $("#date_time").change();
   });  
  </script> 

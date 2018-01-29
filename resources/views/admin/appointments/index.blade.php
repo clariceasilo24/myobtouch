@@ -22,7 +22,7 @@
 									<table class="table table-bordered table-hover" id="appointments-table">
 										<thead>
 											<th>#</th>
-											<th>Paitent</th>
+											<th>Patient</th>
 											<th>Date</th>
 											<th>Time</th>
 											<th>Scheduled By</th>
@@ -65,10 +65,10 @@
 		      "columns": [ 
 		        {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true}, 
 		        {data: 'patient',  name: 'patient', className: 'col-md-2 text-left',  searchable: true, sortable: true},  
-		        {data: 'date_time',  name: 'date_time', className: 'col-md-3 text-left',  searchable: true, sortable: true},  
-		        {data: 'timeslot',  name: 'timeslot', className: 'col-md-3 text-left',  searchable: true, sortable: true},  
-		        {data: 'scheduled_by',  name: 'scheduled_by', className: 'col-md-3 text-left',  searchable: true, sortable: true},  
-		        {data: 'status',  name: 'status', className: 'col-md-3 text-left',  searchable: true, sortable: true},  
+		        {data: 'date_time',  name: 'date_time', className: 'col-md-2 text-left',  searchable: true, sortable: true},  
+		        {data: 'timeslot',  name: 'timeslot', className: 'col-md-2 text-left',  searchable: true, sortable: true},  
+		        {data: 'scheduled_by',  name: 'scheduled_by', className: 'col-md-2 text-left',  searchable: true, sortable: true},  
+		        {data: 'status',  name: 'status', className: 'col-md-1 text-center',  searchable: true, sortable: true},  
 		        {data: 'actions',   name: 'actions', className: 'col-md-2 text-left',  searchable: false,  sortable: false},
 		      ], 
 		      'order': [[0, 'asc']]
@@ -135,5 +135,7 @@
 		          });
 		    });
 		  });
+
+
 	</script>
 @endsection

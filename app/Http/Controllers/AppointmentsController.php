@@ -35,7 +35,7 @@ class AppointmentsController extends Controller
             // return response()->json(['success' => false, 'msg' => 'An error occured while adding appointment!', $request->date_time.' '.$time]);
 
         $data = request()->validate([
-            'date_time'     => 'required|unique:appointments,date_time',
+            'date_time'     => 'required',//|unique:appointments,date_time',
             'remarks'       => 'nullable|string',            
             'user_id'       => 'required',
             'patient_id'    => 'required',
@@ -95,11 +95,11 @@ class AppointmentsController extends Controller
     public function update(Request $request, $id)
     {
         $data = request()->validate([
-            'date_time'     => 'required|date_format:Y-m-d H:i:s|unique:appointments,date_time,'.$id,
-            'status'        => 'required|string',
+            'date_time'     => 'required',//|unique:appointments,date_time',
             'remarks'       => 'nullable|string',            
             'user_id'       => 'required',
             'patient_id'    => 'required',
+            'timeslot_id'   => 'required'
         ]);
         
         $status = \App\Appointment::find($id)->update($data); 
@@ -138,13 +138,13 @@ class AppointmentsController extends Controller
                return $column->patient->firstname.' '.$column->patient->lastname;
             }) 
             ->AddColumn('date_time', function($column){
-               return $column->date_time;
+               return date('F d, Y', strtotime($column->date_time));
             })
             ->AddColumn('timeslot', function($column){
-               return $column->timeslot->from.' - '.$column->timeslot->to;
+               return date('H:i A', strtotime($column->timeslot->from)).' - '.date('H:i A', strtotime($column->timeslot->to));
             })
             ->AddColumn('status', function($column){
-               return $column->status;
+               return $column->status == 'pending' ? '<span class="label badge-pill label-warning">'.$column->status.'</span>':'<span class="label badge-pill label-danger">'.$column->status.'</span>';
             })
             ->AddColumn('scheduled_by', function($column){
                return $column->user->username;
@@ -161,11 +161,22 @@ class AppointmentsController extends Controller
                             </div>';
                 
             }) 
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions', 'status'])
             ->make(true);    
     }
 
-    public function getTimeSlot($date){
+    public function getAvalableTime($date, $id = null){
+        $arr = [];
+        if($id){
+            $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->where('id', '!=',$id)->get();
+        }else{
+            $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->get();   
+        }
+        foreach ($ids as $id) {
+           array_push($arr, $id->id);
+        }
+        $records  = DB::table('time_slots')->whereNotIn('id', $arr)->get();
         
+        return response()->json(['records'=>$records]);
     }
 }

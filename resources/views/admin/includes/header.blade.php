@@ -14,8 +14,8 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ asset('img/ico.png') }}" class="img-circle" alt="Avatar"> <span>{{ ucfirst(Auth::user()->username) }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li> 
-								<li><a href="#"><i class="lnr lnr-cog"></i> <span>Change Password</span></a></li>
+								<li><a href="{{ url('admin/my-profile') }}"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li> 
+								<li><a href="{{ url('admin/my-profile') }}"><i class="lnr lnr-cog"></i> <span>Change Password</span></a></li>
 								<li>
 									<a  href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="lnr lnr-exit"></i> <span>Sign out</span></a> 
 					                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

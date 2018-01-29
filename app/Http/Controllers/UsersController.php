@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
+use Illuminate\Support\Facades\Hash;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -169,5 +171,30 @@ class UsersController extends Controller
             }) 
             ->rawColumns(['actions'])
             ->make(true);    
+    }
+
+    public function myProfile(){
+        return view('admin.users.myProfile');
+    }
+
+    public function changePassword(Request $request){
+
+        $data = request()->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:5|same:confirm_password',
+            'confirm_password' => 'required|string|min:5',
+        ]);
+
+        if (Hash::check($request->new_password, Auth::user()->password)) {
+            $user = \App\User::findOrFail(Auth::user()->id);
+            $user->password = bcrypt($request->new_password);
+            if($user->save()){
+                return response()->json(['success' => true, 'msg' => 'Password Successfully changed!']);                
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occurred while changing password!']);   
+            }
+        }else{
+            return response()->json(['success' => false, 'msg' => 'An error occurred while changing password!']);
+        }
     }
 }

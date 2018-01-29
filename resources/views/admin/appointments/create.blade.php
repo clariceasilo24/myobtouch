@@ -37,7 +37,7 @@
         <div class="col-md-6">
           <div class="form-group">
               <label for="description">Time</label>
-              <select class="form-control" name="timeslot_id"> 
+              <select class="form-control" name="timeslot_id" id="timeslot_id"> 
                 @foreach($time_slots as $time_slot)
                   <option value="{{ $time_slot->id }}">{{ date('H:i A', strtotime($time_slot->from)).' - '.date('H:i A', strtotime($time_slot->to)) }}</option>
                 @endforeach
@@ -88,7 +88,7 @@
                   icon: "error"
                 });
             }
-            $("#services-table").DataTable().ajax.url( '/admin/get-services' ).load();
+            $("#appointments-table").DataTable().ajax.url( '/admin/get-appointments' ).load();
            
           },
           error: function(xhr,status,error){
@@ -98,6 +98,40 @@
         });
 
       });
+      $("#date_time").change(function(){
+        getAvalable();
+      });
+        getAvalable();
+      function getAvalable(){
+
+              $.ajax({
+                url: '/admin/getAvalableTime/'+$("#date_time").val(),         
+                success: function(data) {
+                  var str = '';
+                  console.log(data.records);
+                  for(var i = 0 ; i < data.records.length ; i++){
+                    var from  = data.records[i]['from']+'';
+                    var to = data.records[i]['to']+'';
+                    var f = from.split(':');
+                    var t = to.split(':');
+                    var f_ampm = '';
+                    var t_ampm = '';
+                    if(f > 11){
+                        f_ampm="PM";
+                    }else{
+                        f_ampm="AM";
+                    }
+                    if(t > 11){
+                        t_ampm="PM";
+                    }else{
+                        t_ampm="AM";
+                    }
+                    str+='<option value="'+data.records[i]['id']+'">'+f[0]+':'+f[1]+' '+f_ampm+' - '+t[0]+':'+t[1]+' '+t_ampm+'</option>';
+                  }
+                  $('#timeslot_id').html(str);
+                }
+              });  
+      }
   });  
  </script>
 

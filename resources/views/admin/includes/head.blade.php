@@ -20,6 +20,9 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="{{asset('img/ico.png')}}">
 	<link rel="icon" type="image/png" sizes="96x96" href="{{asset('img/ico.png')}}">
+
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/padding-margin-kit.css') }}">
+
 </head>
 
 <body>
