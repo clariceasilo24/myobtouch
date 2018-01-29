@@ -23,6 +23,9 @@ Route::get('/', function () {
     // dd($users);
 });
 
+Route::get('/services', function(){
+    return view('services');
+});
 Auth::routes();
 
 
@@ -86,7 +89,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
 Route::middleware('auth')->prefix('patients')->group(function () { 
     Route::resource('/home', 'PatientControler');
-    Route::get('/home', 'PatientControler@show');
+    Route::get('/show/{id}', 'PatientControler@show');
+    Route::get('/editMyProfile/{id}','PatientControler@editMyProfile');
+
+    Route::get('/updateaccount', 'PatientControler@updateaccount');
+    Route::post('/changeMyPass/{id}','PatientControler@changePassword');
 });
 
 

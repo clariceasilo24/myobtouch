@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-
+use Auth;
+use Illuminate\Support\Facades\Hash;
 class PatientControler extends Controller
 {
     public function __construct()
@@ -199,5 +200,36 @@ class PatientControler extends Controller
             }) 
             ->rawColumns(['actions'])
             ->make(true);    
+    }
+
+    public function editMyProfile($id)
+    {
+        $patient = \App\Patient::find($id);
+        return view('patients.edit')->with('patient', $patient);
+    }
+    public function updateaccount(){
+        return view('patients.updateaccount');
+    }
+
+
+    public function changePassword(Request $request){
+
+        $data = request()->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:5|same:confirm_password',
+            'confirm_password' => 'required|string|min:5',
+        ]);
+
+        if (Hash::check($request->old_password, Auth::user()->password)) {
+            $user = \App\User::findOrFail(Auth::user()->id);
+            $user->password = bcrypt($request->new_password);
+            if($user->save()){
+                return response()->json(['success' => true, 'msg' => 'Password Successfully changed!']);                
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occurred while changing password!']);   
+            }
+        }else{
+            return response()->json(['success' => false, 'msg' => 'Your current password does not match', 'not_match'=> true]);
+        }
     }
 }

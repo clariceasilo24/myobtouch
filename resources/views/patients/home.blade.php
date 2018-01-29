@@ -3,14 +3,7 @@
 
 @section('body')
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-  <section id="contact">
+  <section id="contact" style="padding-top: 200px !important;padding-botton: 150px !important;" class="bg-white">
       <div class="container wow fadeInUp">
         <div class="section-header">
           <h2>  {{ $patient->firstname }} {{ $patient->lastname }} </h2>
@@ -39,7 +32,7 @@
                 </tr>
                 <tr>
                   <td>Date of Birth:</td>
-                  <td><b>{{ $patient->birthdate }}</b></td>
+                  <td><b>{{ date('F d, Y', strtotime($patient->birthdate)) }}</b></td>
                 </tr>
                 <tr>
                   <td>Gender:</td>
@@ -76,7 +69,7 @@
                 <tr>
                   <td></td>
                   <td>
-                    <button type="button" class="btn btn-primary">Update Profile</button>
+                    <button type="button" class="btn btn-primary edit-data-btn" data-id="{{ $patient->id }}">Update Profile</button>
                   </td>
                 </tr>
               </tbody>
@@ -95,7 +88,7 @@
                 <tr>
                   <td></td>
                   <td>
-                    <button type="button" class="btn btn-success">Update Account</button>
+                    <button type="button" class="btn btn-success edit2-data-btn" data-id="{{ $patient->id }}">Update Account</button>
                   </td>
                 </tr>
               </tbody>
@@ -106,17 +99,46 @@
       
     </section><!-- #contact -->
 
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
     <!-- Core JavaScript Files -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.min.js"></script>
-  <script src="js/wow.min.js"></script>
-  <script src="js/jquery.scrollTo.js"></script>
-  <script src="js/jquery.appear.js"></script>
-  <script src="js/stellar.js"></script>
+  <script src="{{asset('js/jquery.min.js')}}"></script>
+  <script src="{{asset('js/bootstrap.min.js')}}"></script>
+  <script src="{{asset('js/jquery.easing.min.js')}}"></script>
+  <script src="{{asset('js/wow.min.js')}}"></script>
+  <script src="{{asset('js/jquery.scrollTo.js')}}"></script>
+  <script src="{{asset('js/jquery.appear.js')}}"></script>
+  <script src="{{asset('js/stellar.js')}}"></script>
   <script src="plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/nivo-lightbox.min.js"></script>
-  <script src="js/custom.js"></script>
+  <script src="{{asset('js/owl.carousel.min.js')}}"></script>
+  <script src="{{asset('js/nivo-lightbox.min.js')}}"></script>
+  <script src="{{asset('js/custom.js')}}"></script>
 
+  <script src="{{ asset('js/sweetalert2.all.js') }}"></script>
+<script type="text/javascript">
+  
+        $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
+          e.preventDefault();
+          var that = this; 
+          $("#editmodal").html('');
+          $("#editmodal").modal();
+          $.ajax({
+            url: '/patients/editMyProfile/'+that.dataset.id,         
+            success: function(data) {
+              $("#editmodal").html(data);
+            }
+          }); 
+        });
+        $(document).off('click','.edit2-data-btn').on('click','.edit2-data-btn', function(e){
+          e.preventDefault();
+          var that = this; 
+          $("#editmodal").html('');
+          $("#editmodal").modal();
+          $.ajax({
+            url: '/patients/updateaccount',         
+            success: function(data) {
+              $("#editmodal").html(data);
+            }
+          }); 
+        });
+</script>
 @endsection

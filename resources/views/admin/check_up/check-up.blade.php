@@ -133,7 +133,7 @@
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-4" for="email">Service:</label>
+                  <label class="control-label col-md-3 col-sm-4" for="email">Service availed:</label>
                   <div class="col-md-9 col-sm-8">
                     <textarea class="form-control" rows="3" placeholder="Service"></textarea>
                     <span class="help-text text-danger"></span>

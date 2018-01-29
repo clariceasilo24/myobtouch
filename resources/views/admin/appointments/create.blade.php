@@ -133,8 +133,7 @@
               });  
       }
   });  
- </script>
-
+ </script> 
  <table class="table">
   <tr>
     <th>Name:</th>
