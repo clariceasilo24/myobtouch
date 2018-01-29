@@ -55,6 +55,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     
     Route::resource('/users', 'UsersController');
     Route::get('/get-users', 'UsersController@all');
+    Route::get('/my-profile', 'UsersController@myProfile');
+    Route::post('/change-password', 'UsersController@changePassword');
     
     Route::resource('/services', 'ServicesController');
     Route::get('/get-services', 'ServicesController@all');
@@ -70,6 +72,16 @@ Route::middleware('auth')->prefix('admin')->group(function () {
  
     Route::resource('/appointments','AppointmentsController');
     Route::get('/get-appointments', 'AppointmentsController@all');
+    Route::get('/getAvalableTime/{date}/{id?}', 'AppointmentsController@getAvalableTime');
+
+
+    Route::resource('/check-up','CheckUpController');
+    Route::get('/precheckup/{id}', 'CheckUpController@precheckup');
+    Route::post('/save_precheckup', 'CheckUpController@save_precheckup');
+    Route::get('/checkup/{id}', 'CheckUpController@checkup');
+    Route::post('/save_checkup', 'CheckUpController@save_checkup');
+
+    Route::get('/get-appointments-today', 'CheckUpController@all');
 });
 
 Route::middleware('auth')->prefix('patients')->group(function () { 
