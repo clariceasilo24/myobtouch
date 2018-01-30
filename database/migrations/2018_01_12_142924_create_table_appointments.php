@@ -17,7 +17,7 @@ class CreateTableAppointments extends Migration
             $table->increments('id');
             $table->date('date_time')->nullable();
             //$table->enum('status',['pending', 'served', 'cancelled', 'ongoing', 'walk_in'])
-            $table->enum('status',['pending', 'served','cancelled'])->default('pending');
+            $table->enum('status',['pending', 'served', 'approved', 'canceled'])->default('pending');
             
             $table->text('remarks')->nullable();
 

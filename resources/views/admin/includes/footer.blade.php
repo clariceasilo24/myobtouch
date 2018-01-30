@@ -15,8 +15,12 @@
 	<script src="{{asset('admin/assets/vendor/chartist/js/chartist.min.js')}}""></script>
 	<script src="{{asset('admin/assets/scripts/klorofil-common.js')}}""></script>
 
-	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.min.css') }}">
+	<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+	
+	{{-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> --}}
 
 	<script src="{{ asset('js/bootbox.min.js') }}"></script>
 	<script src="{{ asset('js/sweetalert2.all.js') }}"></script>
+	<script src="{{ asset('js/select2.min.js') }}"></script>

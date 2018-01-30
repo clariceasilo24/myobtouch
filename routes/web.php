@@ -82,9 +82,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/precheckup/{id}', 'CheckUpController@precheckup');
     Route::post('/save_precheckup', 'CheckUpController@save_precheckup');
     Route::get('/checkup/{id}', 'CheckUpController@checkup');
-    Route::post('/save_checkup', 'CheckUpController@save_checkup');
+    Route::post('/save_checkup/{id}', 'CheckUpController@save_checkup');
 
     Route::get('/get-appointments-today', 'CheckUpController@all');
+    Route::get('/get-appointments-past', 'CheckUpController@past');
 });
 
 Route::middleware('auth')->prefix('patients')->group(function () { 
@@ -94,6 +95,9 @@ Route::middleware('auth')->prefix('patients')->group(function () {
 
     Route::get('/updateaccount', 'PatientControler@updateaccount');
     Route::post('/changeMyPass/{id}','PatientControler@changePassword');
+    Route::get('/appointments', 'PatientControler@appointments');
+    Route::get('/request_apt_form', 'PatientControler@request_apt_form');
+    Route::post('/save_request_apt', 'PatientControler@save_request_apt');
 });
 
 

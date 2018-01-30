@@ -22,7 +22,7 @@
 	<link rel="icon" type="image/png" sizes="96x96" href="{{asset('img/ico.png')}}">
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/padding-margin-kit.css') }}">
-
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
 </head>
 
 <body>

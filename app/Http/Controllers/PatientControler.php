@@ -232,4 +232,41 @@ class PatientControler extends Controller
             return response()->json(['success' => false, 'msg' => 'Your current password does not match', 'not_match'=> true]);
         }
     }
+
+    public function appointments(){
+        return view('patients.appointments');
+    }
+
+    public function request_apt_form(){
+        $time_slots = \App\TimeSlot::all();
+        return view('patients.request')->with('time_slots', $time_slots);
+    }
+    public function save_request_apt(Request $request){ 
+
+        $time = \App\TimeSlot::find($request->time_slot);
+
+            // return response()->json(['success' => false, 'msg' => 'An error occured while adding appointment!', $request->date_time.' '.$time]);
+
+        $data = request()->validate([
+            'date_time'     => 'required',//|unique:appointments,date_time',
+            'remarks'       => 'nullable|string',            
+            'user_id'       => 'required',
+            'patient_id'    => 'required',
+            'timeslot_id'   => 'required'
+        ]);
+
+
+        //$status = \App\Appointment::create($data); 
+        try{
+            $status = \App\Appointment::create($data); 
+            if($status){
+                return response()->json(['success' => true, 'msg' => 'Appointment Successfully added!']);
+            }
+        }        
+        catch (Exception $e)
+        {
+            return response()->json($e->getMessage());
+        }
+        
+    }
 }

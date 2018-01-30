@@ -44,12 +44,20 @@ class LoginController extends Controller
         return 'username';
     }
 
+    protected function redirectTo()
+    {
+        if(Auth::user()->account_type != 'patient') {
+            return redirect('/admin/home');
+        }else{
+            return redirect('/');
+        }
+    }
     protected function authenticated(Request $request, $user)
     {
-        if($user->account_type == 'admin') {
+        if(Auth::user()->account_type != 'patient') {
             return redirect()->intended('/admin/home');
+        }else{
+            return redirect()->intended('/');
         }
-
-        return redirect()->intended('/');
     }
 }

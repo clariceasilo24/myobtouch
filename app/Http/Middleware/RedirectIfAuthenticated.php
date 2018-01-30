@@ -18,7 +18,11 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            if(Auth::user()->account_type != 'patient') {
+                return redirect()->intended('/admin/home');
+            }else{
+                return redirect()->intended('/');
+            }
         }
 
         return $next($request);

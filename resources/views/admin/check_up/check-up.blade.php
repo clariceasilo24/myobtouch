@@ -11,7 +11,8 @@
    }
  </style>
 
-    {!! Form::open(array('url' => url('/admin/services'), 'method' => 'POST', 'id' => 'add-services-form', 'class'=>'form-horizontal')) !!} 
+    {!! Form::open(array('url' => url('/admin/save_checkup/'.$checkup->id), 'method' => 'POST', 'id' => 'add-services-form', 'class'=>'form-horizontal')) !!} 
+    <input type="hidden" name="appointment_id" value="{{ $checkup->appointment->id }}">
     <div class="modal-body">
       <div class="row mb-5">
         <div class="col-md-12">
@@ -92,10 +93,12 @@
             <div class="panel-heading"><b>Check-up Detail</b></div>
             <div class="panel-body">
 
+
+
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-4" for="email">Complaints:</label>
                   <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Complaints"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Complaints" name="complaints">{{ $checkup->complaints }}</textarea>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>
@@ -103,7 +106,7 @@
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-4" for="email">Assessments:</label>
                   <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Assessments"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Assessments" name="assessments">{{ $checkup->assessments }}</textarea>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>
@@ -111,15 +114,16 @@
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-4" for="email">Treatments:</label>
                   <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Treatments"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Treatments" name="treatment">{{ $checkup->treatment }}</textarea>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>
 
+
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-4" for="email">Prescribe Meds:</label>
                   <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Prescribe Meds"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Prescribe Meds" name="prescribed_meds">{{ $checkup->prescribed_meds }}</textarea>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>
@@ -127,7 +131,7 @@
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-4" for="email">Cases:</label>
                   <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Cases"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Cases" name="cases">{{ $checkup->cases }}</textarea>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>
@@ -135,7 +139,7 @@
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-4" for="email">Service availed:</label>
                   <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Service"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Service" name="services_availed">{{ $checkup->services_availed }}</textarea>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>

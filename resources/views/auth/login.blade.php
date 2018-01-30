@@ -105,7 +105,7 @@
                 <p class="section-description">Log In and start using myOBtouch!</p>
               </div>
 
-        {{--         @if ($errors->any())
+                @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -113,19 +113,23 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif --}}
+                @endif 
 
                 <div class="form">
 
-                  <form action="{{ route('custom.login') }}" method="post"class="contactForm">
-                    {{ csrf_field()}}
-
+                  <form action="{{ route('custom.login') }}" method="post" class="contactForm">
+                    {{ csrf_field()}} 
                     <div class="form-group text-left {{ $errors->has('username') ? ' has-error' : '' }}">
                       <label for="username" class="control-label " >Username:</label>
                       <input type="text" class="form-control" placeholder="Username" name="username" id="username" value="{{old('username')}}" />
                       @if ($errors->has('username'))
                           <span class="help-block">
                               <strong>{{ $errors->first('username') }}</strong>
+                          </span>
+                      @endif
+                      @if ($errors->has('email'))
+                          <span class="help-block">
+                              <strong>{{ $errors->first('email') }}</strong>
                           </span>
                       @endif
                     </div>

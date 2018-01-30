@@ -47,8 +47,8 @@ class AppointmentsController extends Controller
         try{
             $status = \App\Appointment::create($data); 
             if($status){
-            return response()->json(['success' => true, 'msg' => 'Appointment Successfully added!']);
-        }
+                return response()->json(['success' => true, 'msg' => 'Appointment Successfully added!']);
+            }
         }        
         catch (Exception $e)
         {
