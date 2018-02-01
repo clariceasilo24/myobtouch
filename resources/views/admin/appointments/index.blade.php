@@ -102,9 +102,9 @@
 		      e.preventDefault();
 		      var that = this; 
 		            bootbox.confirm({
-		              title: "Confirm Delete Data?",
+		              title: "Confirm cancellation of appointment?",
 		              className: "del-bootbox",
-		              message: "Are you sure you want to delete record?",
+		              message: "Are you sure you want to cancel record?",
 		              buttons: {
 		                  confirm: {
 		                      label: 'Yes',

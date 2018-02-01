@@ -44,7 +44,10 @@ class CheckUpController extends Controller
     }
 
     public function checkup($id){
-        $checkup = \App\CheckUp::where('appointment_id',$id)->firstOrFail();
+        $checkup = \App\CheckUp::where('appointment_id',$id)->first();
+        if(!sizeof($checkup)){
+            return response()->json(['failed' => true, 'msg' => 'Appointment has no pre-checkup detail!']);
+        }
         $services = \App\Service::all(); 
         $cases = \App\Cases::all();
         if(!sizeof($checkup)){
@@ -73,6 +76,7 @@ class CheckUpController extends Controller
             
 
         ]);
+        $data['last_menstruation_date'] = date('Y-m-d', strtotime($data['last_menstruation_date']));
         $apt = \App\Appointment::findOrFail($request->appointment_id);
         $apt->status = 'served';
         $apt->save();
@@ -102,7 +106,7 @@ class CheckUpController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Appointment::selectRaw('*, @row:=@row+1 as row')->where('date_time', date('Y-m-d'));
+        $data = \App\Appointment::selectRaw('*, @row:=@row+1 as row')->where('date_time', date('Y-m-d'))->where('status', '=','approved')->orWhere('status', '=','served')->get();
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -146,7 +150,7 @@ class CheckUpController extends Controller
 
     public function past(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Appointment::selectRaw('*, appointments.id as a_id, @row:=@row+1 as row')->where('date_time', '<',date('Y-m-d'));
+        $data = \App\Appointment::selectRaw('*, appointments.id as a_id, @row:=@row+1 as row')->where('date_time', '<',date('Y-m-d'))->where('status', '=','approved')->get();
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -159,7 +163,17 @@ class CheckUpController extends Controller
                return date('H:i A', strtotime($column->timeslot->from)).' - '.date('H:i A', strtotime($column->timeslot->to));
             })
             ->AddColumn('status', function($column){
-               return $column->status == 'pending' ? '<span class="label badge-pill label-warning">'.$column->status.'</span>':'<span class="label badge-pill label-danger">'.$column->status.'</span>';
+/*               return $column->status == 'pending' ? '<span class="label badge-pill label-warning">'.$column->status.'</span>':'<span class="label badge-pill label-danger">'.$column->status.'</span>';*/
+              if($column->status == 'pending'){
+                return '<span class="label badge-pill label-warning">'.$column->status.'</span>';     
+                }
+                if($column->status == 'approved'){
+                return '<span class="label badge-pill label-info">'.$column->status.'</span>';   
+                }
+                if($column->status == 'served'){
+                return '<span class="label badge-pill label-success">'.$column->status.'</span>';    
+                } 
+               return '<span class="label badge-pill label-danger">'.$column->status.'</span>';
             })
             ->AddColumn('scheduled_by', function($column){
                return $column->user->username;

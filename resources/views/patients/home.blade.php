@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                   <td>Occuptaion:</td>
-                  <td><b>{{ $patient->occuptaion }}</b></td>
+                  <td><b>{{ $patient->occupation }}</b></td>
                 </tr>
                 <tr>
                   <td>Address:</td>
@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                   <td>Referred by:</td>
-                  <td><b>{{ $patient->referred_by }}</b></td>
+                  <td><b>{{ $patient->reffered_by }}</b></td>
                 </tr>
                 <tr>
                   <td>Mobile No.:</td>

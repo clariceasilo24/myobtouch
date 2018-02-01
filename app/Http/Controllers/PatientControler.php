@@ -68,6 +68,7 @@ class PatientControler extends Controller
         //$data2['password'] = bcrypt($data2['password']);
         
         $data2['password'] = bcrypt('123456');
+
         $status2 = \App\User::create($data2); 
 
         $data['user_id'] = $status2->id;
@@ -153,12 +154,12 @@ class PatientControler extends Controller
         /*if($data2['password']){
             $data2['password'] = bcrypt($data2['password']);
         }*/
-        $data2['password'] = bcrypt('123456');
+        //$data2['password'] = bcrypt('123456');
         $user = \App\User::find($patient->user_id);
         $user->username = $request->get('username');
-        if($data2['password']){
+        /*if($data2['password']){
             $user->password = bcrypt($data2['password']);
-        }
+        }*/
         $status = \App\Patient::find($id)->update($data); 
         
         if($status && $user->save()){
@@ -260,6 +261,31 @@ class PatientControler extends Controller
     }
     public function save_request_apt(Request $request){ 
 
+        // $time = \App\TimeSlot::find($request->time_slot);
+
+        //     // return response()->json(['success' => false, 'msg' => 'An error occured while adding appointment!', $request->date_time.' '.$time]);
+
+        // $data = request()->validate([
+        //     'date_time'     => 'required',//|unique:appointments,date_time',
+        //     'remarks'       => 'nullable|string',            
+        //     'user_id'       => 'required',
+        //     'patient_id'    => 'required',
+        //     'timeslot_id'   => 'required'
+        // ]);
+
+
+        // //$status = \App\Appointment::create($data); 
+        // try{
+        //     $status = \App\Appointment::create($data); 
+        //     if($status){
+        //         return response()->json(['success' => true, 'msg' => 'Appointment Successfully added!']);
+        //     }
+        // }        
+        // catch (Exception $e)
+        // {
+        //     return response()->json($e->getMessage());
+        // }
+
         $time = \App\TimeSlot::find($request->time_slot);
 
             // return response()->json(['success' => false, 'msg' => 'An error occured while adding appointment!', $request->date_time.' '.$time]);
@@ -269,11 +295,21 @@ class PatientControler extends Controller
             'remarks'       => 'nullable|string',            
             'user_id'       => 'required',
             'patient_id'    => 'required',
-            'timeslot_id'   => 'required'
+          /*'timeslot_id'   => 'required'*/
         ]);
 
-
+        $data['date_time'] = date('Y-m-d', strtotime($data['date_time']));
         //$status = \App\Appointment::create($data); 
+        $date = $data['date_time'];
+        $arr = [];
+        $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->get();   
+        foreach ($ids as $id) {
+           array_push($arr, $id->id);
+        }
+
+        $timeslots  = DB::table('time_slots')->whereNotIn('id', $arr)->get();
+        $data['timeslot_id'] = $timeslots[0]->id;
+
         try{
             $status = \App\Appointment::create($data); 
             if($status){

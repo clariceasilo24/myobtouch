@@ -17,12 +17,12 @@
           <span class="help-text text-danger"></span>
       </div>    -->
       
-      
+      <input type="hidden" name="timeslot_id" value="{{ $appointment->timeslot_id }}">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
               <label for="patient_id">Patient</label> 
-              <select class="form-control" name="patient_id">
+              <select class="form-control" name="patient_id" id="patient_id">
                 <option disabled selected>Select Patient</option>
                 @foreach($patients as $patient)
                   <option value="{{ $patient->id }}" {{$appointment->patient_id == $patient->id ? 'selected':''}}>{{ $patient->firstname.' '.$patient->lastname }}</option>
@@ -37,9 +37,10 @@
               <!-- <input type="text" class="form-control" id="status" name="status" autocomplete="false" value="{{ $appointment->status}}"> -->
               <select class="form-control" name="status">
                 <option disabled selected>Select Status</option>
+                 <option value="approved" {{$appointment->status == "approved" ? 'selected':''}}>Approved</option>
                  <option value="pending" {{$appointment->status == "pending" ? 'selected':''}}>Pending</option>
                  <option value="served" {{$appointment->status == "served" ? 'selected':''}}>Served</option>
-                 <option value="cancelled" {{$appointment->status == "cancelled" ? 'selected':''}}>Cancelled</option>
+                 {{-- <option value="cancelled" {{$appointment->status == "cancelled" ? 'selected':''}}>Cancelled</option> --}}
               </select>
               <span class="help-text text-danger"></span>
           </div> 

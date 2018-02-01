@@ -180,6 +180,8 @@ class UsersController extends Controller
     public function changePassword(Request $request){
 
         $data = request()->validate([
+
+            'username' => 'required|string',
             'old_password' => 'required|string',
             'new_password' => 'required|string|min:5|same:confirm_password',
             'confirm_password' => 'required|string|min:5',
@@ -187,6 +189,7 @@ class UsersController extends Controller
 
         if (Hash::check($request->new_password, Auth::user()->password)) {
             $user = \App\User::findOrFail(Auth::user()->id);
+            $user->username = $request->get('username');
             $user->password = bcrypt($request->new_password);
             if($user->save()){
                 return response()->json(['success' => true, 'msg' => 'Password Successfully changed!']);                

@@ -29,6 +29,12 @@
 						                	<b>Change Password</b>
 						                </li>
 						                <li class="list-group-item py-5">
+
+										  <div class="form-group">
+										      <label for="username">Username</label>
+										      <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" autocomplete="false" value="{{ Auth::user()->username }}">
+										      <span class="help-text text-danger"></span>
+										  </div>
 									      <div class="form-group">
 									          <label for="old_password">Old Password</label>
 									          <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Old Password" autocomplete="false">
@@ -47,7 +53,7 @@
 						                </li>
 						              </ul>
  
-							        {!! Form::submit('Change Password', ['class' => 'btn btn-primary btn-block']) !!}
+							        {!! Form::submit('Update Profile', ['class' => 'btn btn-primary btn-block']) !!}
 						            </div> 
 							      {!! Form::close() !!}
 								</div>

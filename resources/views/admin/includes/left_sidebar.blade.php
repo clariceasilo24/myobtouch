@@ -11,7 +11,9 @@
 						<li class="hidden"><a href="{{ url('admin/time-slots') }}" class="{{ Request::segment(2) == 'time-slots' ? 'active':'' }}"><i class="fa fa-clock-o"></i> <span>Time Slots</span></a></li>
 						<li><a href="{{ url('admin/appointments') }}" class="{{ Request::segment(2) == 'appointments' ? 'active':'' }}"><i class="fa fa-calendar"></i> <span>Appointments</span></a></li>
 						<li><a href="{{ url('admin/check-up') }}" class="{{ Request::segment(2) == 'check-up' ? 'active':'' }}"><i class="fa fa-check"></i> <span>Check Ups</span></a></li>
-						<li><a href="{{ url('admin/users') }}" class="{{ Request::segment(2) == 'users' ? 'active':'' }}"><i class="lnr lnr-users"></i> <span>Users</span></a></li>
+						@if(Auth::user()->account_type == 'admin')
+							<li><a href="{{ url('admin/users') }}" class="{{ Request::segment(2) == 'users' ? 'active':'' }}"><i class="lnr lnr-users"></i> <span>Users</span></a></li>
+						@endif
 						<li><a href="{{ url('admin/cases-reports') }}" class="{{ Request::segment(2) == 'cases-reports' ? 'active':'' }}"><i class="fa fa-list-alt"></i> <span>Cases Reports</span></a></li>
 						<li><a href="{{ url('admin/appointment-reports') }}" class="{{ Request::segment(2) == 'appointment-reports' ? 'active':'' }}"><i class="fa fa-list-alt"></i> <span>Appointment Reports</span></a></li>
 					</ul>

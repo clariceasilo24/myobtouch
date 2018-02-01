@@ -18,7 +18,7 @@
       </div>    -->
       <div class="form-group">
           <label for="patient_id">Patient</label> 
-          <select class="form-control" name="patient_id">
+          <select class="form-control" name="patient_id" id="patient_id">
             <option disabled selected>Select Patient</option>
             @foreach($patients as $patient)
               <option value="{{ $patient->id }}">{{ $patient->firstname.' '.$patient->lastname }}</option>
@@ -31,7 +31,7 @@
           <div class="form-group">
               <label for="date_time">Date</label>
               <div class="input-group date" data-provide="datepicker" id="date">
-                  <input type="text" class="form-control" name="date_time" value="{{ date('m/d/Y') }}">
+                  <input type="text" class="form-control" name="date_time" id="date_time" value="{{ date('m/d/Y') }}">
                   <div class="input-group-addon">
                       <span class="glyphicon glyphicon-th"></span>
                   </div>

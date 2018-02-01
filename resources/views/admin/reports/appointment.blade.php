@@ -84,7 +84,8 @@
 		            {
 		                extend: 'print',
 		                messageTop: '<h3> Appointment Reports</h3>',
-		                title: ''
+		                title: '',
+			            autoPrint: true
 		            }
 		        ]
 		    });

@@ -109,6 +109,7 @@ class AppointmentsController extends Controller
             'remarks'       => 'nullable|string',            
             'user_id'       => 'required',
             'patient_id'    => 'required',
+            'status'    => 'required',
             'timeslot_id'   => 'required'
         ]);
         
@@ -156,7 +157,16 @@ class AppointmentsController extends Controller
                return date('H:i A', strtotime($column->timeslot->from)).' - '.date('H:i A', strtotime($column->timeslot->to));
             })
             ->AddColumn('status', function($column){
-               return $column->status == 'pending' ? '<span class="label badge-pill label-warning">'.$column->status.'</span>':'<span class="label badge-pill label-danger">'.$column->status.'</span>';
+                if($column->status == 'pending'){
+                return '<span class="label badge-pill label-warning">'.$column->status.'</span>';     
+                }
+                if($column->status == 'approved'){
+                return '<span class="label badge-pill label-info">'.$column->status.'</span>';   
+                }
+                if($column->status == 'served'){
+                return '<span class="label badge-pill label-success">'.$column->status.'</span>';    
+                } 
+               return '<span class="label badge-pill label-danger">'.$column->status.'</span>';
             })
             ->AddColumn('scheduled_by', function($column){
                return $column->user->username;

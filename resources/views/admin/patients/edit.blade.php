@@ -6,7 +6,7 @@
     </div>
  
 
-    {!! Form::open(array('url' => url('/admin/patients/'.$patient->id), 'method' => 'PATCH', 'id' => 'add-patients-form')) !!} 
+    {!! Form::open(array('url' => url('/admin/patients/'.$patient->id), 'method' => 'PATCH', 'id' => 'edit-patients-form')) !!} 
     <div class="modal-body">
 
       <div class="row">
@@ -181,7 +181,8 @@
  
 <script type="text/javascript">
   $(function(){ 
-      $("#add-patients-form").on('submit', function(e){
+      $("#edit-patients-form").on('submit', function(e){
+      
         e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
         var $form = $(this);
         var $url = $form.attr('action');
@@ -190,7 +191,7 @@
         $.ajax({
           type: 'PATCH',
           url: $url,
-          data: $("#add-patients-form").serialize(), 
+          data: $("#edit-patients-form").serialize(), 
           success: function(result){
             if(result.success){
               swal({

@@ -77,7 +77,8 @@
 		            {
 		                extend: 'print',
 		                messageTop: '<h3> Cases Reports</h3>',
-		                title: ''
+		                title: '',
+			            autoPrint: true
 		            }
 		        ]
 		    });

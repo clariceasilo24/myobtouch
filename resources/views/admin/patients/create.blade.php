@@ -123,14 +123,14 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="reffered_by">Reffered By</label>
-            <input type="text" id="p_firstname" name="p_firstname" placeholder="Enter Reffered By" class="form-control" autocomplete="false">
+            <input type="text" id="reffered_by" name="reffered_by" placeholder="Enter Reffered By" class="form-control" autocomplete="false">
             <span class="help-text text-danger"></span>
           </div> 
         </div> 
         <div class="col-md-6">
           <div class="form-group">
             <label for="mobile_no">Mobile No.</label>
-            <input type="text" id="p_lastname" name="p_lastname" placeholder="Enter Mobile No." class="form-control" autocomplete="false">
+            <input type="text" id="mobile_no" name="mobile_no" placeholder="Enter Mobile No." class="form-control" autocomplete="false">
             <span class="help-text text-danger"></span>
           </div> 
         </div> 

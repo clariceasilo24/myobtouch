@@ -49,11 +49,11 @@ class CustomAuthController extends Controller
             $account_type = $user->account_type;
             if($account_type == 'admin')
             {
-                return redirect('/');
+                return redirect('/admin/home');
             }
             else if($account_type == 'secretary')
             {
-                return redirect('/');
+                return redirect('/admin/home');
             }
             else
             {
@@ -67,7 +67,8 @@ class CustomAuthController extends Controller
         }
         else
         {
-            return redirect('/login');
+            
+            return redirect()->back()->withErrors(['email'=>'These credentials do not match our records.', 'failed'=>'These credentials do not match our records.'])->withInput($request->only('email', 'remember'));
         }
         
     }

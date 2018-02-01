@@ -10,17 +10,17 @@
     <div class="modal-body">
       <input type="hidden" name="patient_id" value="{{ Auth::user()->patient->id }}">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
               <label for="date_time">Date</label>
               <input type="date" class="form-control" id="date_time" name="date_time" autocomplete="false" value="{{ date('Y-m-d') }}">
               <span class="help-text text-danger"></span>
           </div>
         </div> 
-        <div class="col-md-6">
+        <div class="col-md-6 hidden">
           <div class="form-group">
               <label for="description">Time</label>
-              <select class="form-control" name="timeslot_id" id="timeslot_id"> 
+              <select class="form-control"{{--  name="timeslot_id" --}} id="timeslot_id"> 
                 @foreach($time_slots as $time_slot)
                   <option value="{{ $time_slot->id }}">{{ date('H:i A', strtotime($time_slot->from)).' - '.date('H:i A', strtotime($time_slot->to)) }}</option>
                 @endforeach
