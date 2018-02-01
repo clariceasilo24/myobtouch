@@ -92,9 +92,9 @@
 
                 <div class="form-group">
                   
-                        <label for="date_time">Last Menstruation Date</label>
+                        <label for="last_menstruation_date">Last Menstruation Date</label>
                         <div class="input-group date" data-provide="datepicker" id="date">
-                            <input type="text" class="form-control" name="date_time" value="{{ date('m/d/Y') }}">
+                            <input type="text" class="form-control" name="last_menstruation_date" id="last_menstruation_date" value="{{ date('m/d/Y') }}">
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-th"></span>
                             </div>
@@ -234,9 +234,9 @@
 
       });
 
-      $('[name="date_time"]').change(function(){
+      $('[name="last_menstruation_date"]').change(function(){
         
-        var d = new Date($('[name="date_time"]').val());
+        var d = new Date($('[name="last_menstruation_date"]').val());
         var dd = d.setDate(d.getDate()+7);
         var day = d.getDate();
         var month = (d.getMonth()+1)-3;
@@ -253,6 +253,6 @@
         var m = ['January' , 'February', 'March' , 'April', 'May', 'June' , 'July', 'August', 'September', 'October', 'November' , 'December' ];
         return m[$m];
       }
-      $('[name="date_time"]').change();
+      $('[name="last_menstruation_date"]').change();
   });  
  </script> 

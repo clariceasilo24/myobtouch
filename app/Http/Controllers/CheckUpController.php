@@ -68,6 +68,10 @@ class CheckUpController extends Controller
             'assessments'    => 'nullable',
             'treatment'      => 'nullable',
             'prescribed_meds' => 'nullable',
+            'last_menstruation_date' => 'required',
+            'edc' => 'required',
+            
+
         ]);
         $apt = \App\Appointment::findOrFail($request->appointment_id);
         $apt->status = 'served';
