@@ -23,6 +23,10 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/padding-margin-kit.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
+
+	<link rel="stylesheet" type="text/css" href="{{ asset('bootstrap-datepicker/css/bootstrap-datepicker3.css') }}">
+
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/buttons.dataTables.min.css') }}">
 </head>
 
 <body>

@@ -25,4 +25,10 @@ class Appointment extends Model
     public function timeslot(){
         return $this->belongsTo('\App\TimeSlot', 'timeslot_id');
     }
+    public function services(){
+        return $this->hasMany('\App\ServiceDetail', 'appointment_id');
+    }
+    public function cases(){
+        return $this->hasMany('\App\CaseDetail', 'appointment_id');
+    }
 }

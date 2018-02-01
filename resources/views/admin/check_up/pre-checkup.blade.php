@@ -53,16 +53,16 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2" for="email">Height:</label>
+          <label class="control-label col-sm-2" for="email">Height: (inch)</label>
           <div class="col-sm-10">
-          <input type="text" class="form-control" id="height" name="height" placeholder="Height">
+          <input type="text" class="form-control" id="height" name="height" placeholder="Height in inch">
             <span class="help-text text-danger"></span>
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2" for="email">Weight:</label>
+          <label class="control-label col-sm-2" for="email">Weight: (kg)</label>
           <div class="col-sm-10">
-          <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight">
+          <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight in kg">
             <span class="help-text text-danger"></span>
           </div>
         </div>

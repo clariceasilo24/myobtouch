@@ -22,7 +22,9 @@ class CheckUp extends Model
 		'treatment',
 		'prescribed_meds',
 		'ea_id',
-		'appointment_id'
+		'appointment_id',
+		'last_menstruation_date',
+		'edc'
     ];
 
     public function appointment(){

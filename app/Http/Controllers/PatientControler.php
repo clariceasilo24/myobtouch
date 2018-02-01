@@ -62,10 +62,12 @@ class PatientControler extends Controller
         $data2 = request()->validate([
             'account_type' => 'required', 
             'username' => 'required|string|max:255|unique:users,username',
-            'password' => 'nullable|string|min:6|same:password_confirm'
+            /*'password' => 'nullable|string|min:6|same:password_confirm'*/
         ]);
 
-        $data2['password'] = bcrypt($data2['password']);
+        //$data2['password'] = bcrypt($data2['password']);
+        
+        $data2['password'] = bcrypt('123456');
         $status2 = \App\User::create($data2); 
 
         $data['user_id'] = $status2->id;
@@ -93,6 +95,14 @@ class PatientControler extends Controller
         // $patient = \App\Patient::find('user_id', $id);
         return view('patients.home')->with('patient', $patient)
                                     ->with('user', $user);
+    }
+    public function view_p($id){
+
+        $patient = \App\Patient::find($id);
+        $user = \App\User::find($patient->user->id);
+        // $patient = \App\Patient::find('user_id', $id);
+        return view('admin.patients.view')->with('patient', $patient)
+                                    ->with('user', $user);    
     }
 
     /**
@@ -137,12 +147,13 @@ class PatientControler extends Controller
         $data2 = request()->validate([
             'account_type' => 'required', 
             'username' => 'required|string|max:255|unique:users,username,'.$patient->user_id,
-            'password' => 'nullable|string|min:6|same:password_confirm'
+            /*'password' => 'nullable|string|min:6|same:password_confirm'*/
         ]);
-        if($data2['password']){
-            $data2['password'] = bcrypt($data2['password']);
-        }
 
+        /*if($data2['password']){
+            $data2['password'] = bcrypt($data2['password']);
+        }*/
+        $data2['password'] = bcrypt('123456');
         $user = \App\User::find($patient->user_id);
         $user->username = $request->get('username');
         if($data2['password']){
@@ -165,17 +176,23 @@ class PatientControler extends Controller
      */
     public function destroy($id)
     {
-        $status = \App\Patient::destroy($id); 
-        if($status){
+
+        try{
+
+            DB::beginTransaction();
+            $status = \App\Patient::destroy($id);  
+            DB::commit();
             return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['success' => false, 'msg' => 'Cannot Delete patient!']);
         }
+        
     }
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Patient::selectRaw('*, @row:=@row+1 as row');
+        $data = \App\Patient::selectRaw('*, patients.id as pd_id, @row:=@row+1 as row');
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -189,8 +206,8 @@ class PatientControler extends Controller
                                 <button class="btn-xs btn btn-primary edit-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-edit"></i> Edit
                                 </button>
-                                <button class="btn-xs btn btn-danger delete-data-btn" data-id="'.$column->id.'">
-                                    <i class="fa fa-trash-o"></i> Delete
+                                <button class="btn-xs btn btn-info view-data-btn" data-id="'.$column->pd_id.'">
+                                    <i class="fa fa-eye"></i> View
                                 </button> 
                                 <button class="btn-xs btn btn-danger delete-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-trash-o"></i> Delete

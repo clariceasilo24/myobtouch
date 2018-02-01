@@ -44,7 +44,7 @@ class ServicesController extends Controller
         $data = request()->validate([
             'name' => 'required|string|max:30', 
             'description' => 'required|string',
-            'charge' => 'required|numeric'
+            'charge' => 'required|numeric|min:1'
         ]);
 
 
@@ -91,7 +91,7 @@ class ServicesController extends Controller
         $data = request()->validate([
             'name' => 'required|string|max:30', 
             'description' => 'required|string',
-            'charge' => 'required|numeric'
+            'charge' => 'required|numeric|min:1'
         ]);
         
         $status = \App\Service::find($id)->update($data); 
@@ -110,12 +110,17 @@ class ServicesController extends Controller
      */
     public function destroy($id)
     {
-        $status = \App\Service::destroy($id); 
-        if($status){
+
+        try{
+
+            DB::beginTransaction();
+            $status = \App\Service::destroy($id); 
+            DB::commit();
             return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
-        }
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['success' => false, 'msg' => 'Cannot delete service!']);
+        } 
     }
 
     public function all(){

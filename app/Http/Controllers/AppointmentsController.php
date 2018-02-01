@@ -39,11 +39,21 @@ class AppointmentsController extends Controller
             'remarks'       => 'nullable|string',            
             'user_id'       => 'required',
             'patient_id'    => 'required',
-            'timeslot_id'   => 'required'
+/*            'timeslot_id'   => 'required'*/
         ]);
 
-
+        $data['date_time'] = date('Y-m-d', strtotime($data['date_time']));
         //$status = \App\Appointment::create($data); 
+        $date = $data['date_time'];
+        $arr = [];
+        $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->get();   
+        foreach ($ids as $id) {
+           array_push($arr, $id->id);
+        }
+
+        $timeslots  = DB::table('time_slots')->whereNotIn('id', $arr)->get();
+        $data['timeslot_id'] = $timeslots[0]->id;
+
         try{
             $status = \App\Appointment::create($data); 
             if($status){
@@ -102,6 +112,7 @@ class AppointmentsController extends Controller
             'timeslot_id'   => 'required'
         ]);
         
+        $data['date_time'] = date('Y-m-d', strtotime($data['date_time']));
         $status = \App\Appointment::find($id)->update($data); 
         if($status){
             return response()->json(['success' => true, 'msg' => 'Appointment Successfully updated!']);
@@ -118,11 +129,12 @@ class AppointmentsController extends Controller
      */
     public function destroy($id)
     {
-        $status = \App\Appointment::destroy($id); 
-        if($status){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+        $data = \App\Appointment::find($id); 
+        $data->status = 'canceled';
+        if($data->save()){
+            return response()->json(['success' => true, 'msg' => 'Data Successfully canceled!']);
         }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            return response()->json(['success' => false, 'msg' => 'An error occurred while canceling data!']);
         }
     }
 
@@ -156,7 +168,7 @@ class AppointmentsController extends Controller
                                     <i class="fa fa-edit"></i> Edit
                                 </button>
                                 <button class="btn-xs btn btn-danger delete-data-btn" data-id="'.$column->id.'">
-                                    <i class="fa fa-trash-o"></i> Delete
+                                    <i class="fa fa-trash-o"></i> Cancel
                                 </button> 
                             </div>';
                 
@@ -165,7 +177,8 @@ class AppointmentsController extends Controller
             ->make(true);    
     }
 
-    public function getAvalableTime($date, $id = null){
+    public function getAvalableTime(Request $request, $id = null){
+        $date = date('Y-m-d', strtotime($request->date));
         $arr = [];
         if($id){
             $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->where('id', '!=',$id)->get();

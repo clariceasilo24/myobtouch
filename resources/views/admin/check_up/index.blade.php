@@ -29,7 +29,7 @@
 						</div>
 					</div>   
 
-					<div class="panel panel-headline col-md-6 p-4">
+					<div class="panel panel-headline col-md-6 p-4 hidden">
 						<div class="panel-heading p-0">
 							<h3 class="panel-title">
 								Past Appointments

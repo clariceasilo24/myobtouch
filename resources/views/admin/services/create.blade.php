@@ -20,7 +20,7 @@
       </div> 
       <div class="form-group">
           <label for="charge">Charge</label>
-          <input type="number" class="form-control" id="charge" name="charge" placeholder="Enter Charge" autocomplete="false">
+          <input type="number" class="form-control" min="1" id="charge" name="charge" placeholder="Enter Charge" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>   
     </div>

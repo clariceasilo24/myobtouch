@@ -97,7 +97,7 @@
 		      $("#viewmodal").html('');
 		      $("#viewmodal").modal();
 		      $.ajax({
-		        url: '/admin/users/'+that.dataset.id+'',         
+		        url: '/admin/view_p/'+that.dataset.id+'',         
 		        success: function(data) {
 		          $("#viewmodal").html(data);
 		        }

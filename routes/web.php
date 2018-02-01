@@ -66,6 +66,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     
     Route::resource('/patients', 'PatientControler');
     Route::get('/get-patients', 'PatientControler@all');
+    Route::get('/view_p/{id}', 'PatientControler@view_p');
+
 
     Route::resource('/cases', 'CasesController');
     Route::get('/get-cases', 'CasesController@all');
@@ -75,7 +77,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
  
     Route::resource('/appointments','AppointmentsController');
     Route::get('/get-appointments', 'AppointmentsController@all');
-    Route::get('/getAvalableTime/{date}/{id?}', 'AppointmentsController@getAvalableTime');
+    Route::get('/getAvalableTime/{id?}', 'AppointmentsController@getAvalableTime');
 
 
     Route::resource('/check-up','CheckUpController');
@@ -86,6 +88,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/get-appointments-today', 'CheckUpController@all');
     Route::get('/get-appointments-past', 'CheckUpController@past');
+
+    Route::get('cases-reports', 'ReportsController@cases_reports');
+    Route::get('/get-cases_reports/{id}', 'ReportsController@getCasesReports');
+    Route::get('appointment-reports', 'ReportsController@appointment_reports');
+    Route::get('/get-appointment_reports', 'ReportsController@getAppointmentReports');
 });
 
 Route::middleware('auth')->prefix('patients')->group(function () { 

@@ -147,7 +147,7 @@
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" autocomplete="false">
                 <span class="help-text text-danger"></span>
-            </div>
+            </div>{{-- 
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="false">
@@ -156,7 +156,7 @@
             <div class="form-group">
                 <label for="exampleInputPassword1">Confirm Password</label>
                 <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirm Password" autocomplete="false">
-            </div>  
+            </div>   --}}
         </div> 
       </div>
     </div>

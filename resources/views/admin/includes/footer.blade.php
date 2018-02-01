@@ -24,3 +24,8 @@
 	<script src="{{ asset('js/bootbox.min.js') }}"></script>
 	<script src="{{ asset('js/sweetalert2.all.js') }}"></script>
 	<script src="{{ asset('js/select2.min.js') }}"></script>
+
+	<script src="{{ asset('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
+	<script src="{{ asset('js/dataTables.buttons.min.js') }}"></script>
+	<script src="{{ asset('js/buttons.print.min.js') }}"></script>

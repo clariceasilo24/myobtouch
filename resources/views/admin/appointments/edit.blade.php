@@ -47,7 +47,20 @@
       </div>
 
       <div class="row">
-        <div class="col-md-6">
+
+        <div class="col-md-12">
+          <div class="form-group">
+              <label for="date_time">Date</label>
+              <div class="input-group date" data-provide="datepicker" id="date">
+                  <input type="text" class="form-control" name="date_time" value="{{ date('m/d/Y') }}">
+                  <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-th"></span>
+                  </div>
+              </div>
+              <span class="help-text text-danger"></span>
+          </div>
+        </div> 
+        {{-- <div class="col-md-6">
           <div class="form-group">
               <label for="date_time">Date</label>
               <input type="date" class="form-control" id="date_time" name="date_time" autocomplete="false" value="{{ date('Y-m-d', strtotime($appointment->date_time)) }}">
@@ -61,7 +74,7 @@
               </select>
               <span class="help-text text-danger"></span>
           </div>
-        </div>
+        </div> --}}
       </div> 
       <div class="form-group">
           <label for="remarks">Remarks</label>
@@ -116,13 +129,13 @@
       });
 
 
-      $("#date_time").change(function(){
+      $("[name='date_time']").change(function(){
         getAvalable();
       });
        
       function getAvalable(){
               $.ajax({
-                url: '/admin/getAvalableTime/'+$("#date_time").val()+'/'+{{ $appointment->id }},         
+                url: '/admin/getAvalableTime/?date='+$("[name='date_time']").val()+'/'+{{ $appointment->id }},         
                 success: function(data) {
                   var str = ''; 
                   for(var i = 0 ; i < data.records.length ; i++){
@@ -153,6 +166,13 @@
               });  
       }
        getAvalable();
-       $("#date_time").change();
+       $("[name='date_time']").change();
+
+      var date = new Date();
+      var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      $('#date').datepicker({ 
+          startDate: today,
+          minDate: date
+      });
   });  
  </script> 

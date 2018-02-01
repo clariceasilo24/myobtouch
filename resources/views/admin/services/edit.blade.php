@@ -20,7 +20,7 @@
       </div> 
       <div class="form-group">
           <label for="charge">Charge</label>
-          <input type="number" class="form-control" id="charge" name="charge" placeholder="Enter Charge" autocomplete="false" value="{{ $service->charge }}">
+          <input type="number" class="form-control" id="charge" min="1" name="charge" placeholder="Enter Charge" autocomplete="false" value="{{ $service->charge }}">
           <span class="help-text text-danger"></span>
       </div>   
     </div>

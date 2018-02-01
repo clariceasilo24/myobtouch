@@ -29,7 +29,8 @@
 
         <div class="col-md-4">
           <div class="panel panel-info">
-            <div class="panel-heading"><b>Pre-Check-up Detail</b></div>
+            <div class="panel-heading"><b>Pre-Check-up Detail</b>  
+            </div>
             <div class="panel-body">
                 <div class="form-group">
                   <label class="control-label col-md-4 col-sm-6" for="email">Pregnancy:<span class="text-danger">*</span></label>
@@ -84,6 +85,28 @@
             </div>
           </div>
           
+          <div class="panel panel-info">
+            <div class="panel-heading"><b>EDC Detail</b>  
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                  
+                        <label for="date_time">Last Menstruation Date</label>
+                        <div class="input-group date" data-provide="datepicker" id="date">
+                            <input type="text" class="form-control" name="date_time" value="{{ date('m/d/Y') }}">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                </div>
+                <div class="form-group">
+                  <input type="hidden" name="edc" class="edc">
+                  <h3 id="edc"></h3>
+                  <label>Estimated date of confinement</label>
+                </div>
+            </div>
+          </div>
 
         </div>
 
@@ -131,15 +154,23 @@
                 <div class="form-group">
                   <label class="control-label col-md-3 col-sm-4" for="email">Cases:</label>
                   <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Cases" name="cases">{{ $checkup->cases }}</textarea>
+                    <select name="cases[]" multiple="multiple" class="select2-multi form-control">
+                      @foreach($cases as $case)
+                        <option value="{{ $case->id }}" {{ $checkup->appointment->cases->where('case_id', $case->id)->first() ? 'selected':'' }}>{{ $case->name }}</option>
+                      @endforeach
+                    </select>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-4" for="email">Service availed:</label>
-                  <div class="col-md-9 col-sm-8">
-                    <textarea class="form-control" rows="3" placeholder="Service" name="services_availed">{{ $checkup->services_availed }}</textarea>
+                  <label class="control-label col-md-3 col-sm-4" for="email">Service(s) availed:</label>
+                  <div class="col-md-9 col-sm-8"> 
+                    <select name="services[]" multiple="multiple" class="select2-multi form-control">
+                      @foreach($services as $service)
+                        <option value="{{ $service->id }}" {{ $checkup->appointment->services->where('service_id', $service->id)->first() ? 'selected':'' }}> {{ $service->name }} </option>
+                      @endforeach
+                    </select>
                     <span class="help-text text-danger"></span>
                   </div>
                 </div>
@@ -160,11 +191,16 @@
 
   </div>
 </div>
-
+<style type="text/css">
+  .select2-container{
+    width: 100% !important;
+  }
+</style>
  
 <script type="text/javascript">
   $(function(){ 
-
+        $('#date').datepicker(); 
+    $('.select2-multi').select2();
       $("#add-services-form").on('submit', function(e){
         e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
         var $form = $(this);
@@ -197,5 +233,26 @@
         });
 
       });
+
+      $('[name="date_time"]').change(function(){
+        
+        var d = new Date($('[name="date_time"]').val());
+        var dd = d.setDate(d.getDate()+7);
+        var day = d.getDate();
+        var month = (d.getMonth()+1)-3;
+        var year = d.getFullYear()+1;
+        if(month < 1){
+          month = month + 12;
+        }
+        console.log(year+'-'+month+'-'+day);
+        $('.edc').val(year+'-'+month+'-'+day);
+        $("#edc").html(getmonthName(month-1) +' '+day+', '+year);
+      });
+
+      function getmonthName($m){
+        var m = ['January' , 'February', 'March' , 'April', 'May', 'June' , 'July', 'August', 'September', 'October', 'November' , 'December' ];
+        return m[$m];
+      }
+      $('[name="date_time"]').change();
   });  
  </script> 

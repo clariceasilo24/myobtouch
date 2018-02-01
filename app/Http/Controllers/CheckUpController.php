@@ -22,6 +22,7 @@ class CheckUpController extends Controller
 	    	return view('admin.check_up.pre-checkup')->with('appointment', $appointment);
     	}
     }
+
     public function save_precheckup(Request $request){
 
         $data = request()->validate([
@@ -43,11 +44,13 @@ class CheckUpController extends Controller
     }
 
     public function checkup($id){
-        $checkup = \App\CheckUp::where('appointment_id',$id)->get();
+        $checkup = \App\CheckUp::where('appointment_id',$id)->firstOrFail();
+        $services = \App\Service::all(); 
+        $cases = \App\Cases::all();
         if(!sizeof($checkup)){
             return response()->json(['failed' => true, 'msg' => 'Appointment already has no pre-checkup detail yet!']);
         }else{
-            return view('admin.check_up.check-up')->with('checkup', $checkup);
+            return view('admin.check_up.check-up')->with('checkup', $checkup)->with('services', $services)->with('cases', $cases);
         }
     }
 
@@ -71,6 +74,21 @@ class CheckUpController extends Controller
         $apt->save();
 
         $status = \App\CheckUp::findOrFail($id)->update($data); 
+
+        \App\CaseDetail::where('appointment_id', $apt->id)->delete();
+        for($i = 0 ; $i < sizeof($request->get('cases')) ; $i++){
+            $c = new \App\CaseDetail;
+            $c->appointment_id  = $apt->id;
+            $c->case_id         = $request->get('cases')[$i];
+            $c->save();
+        }
+        \App\ServiceDetail::where('appointment_id', $apt->id)->delete();
+        for($i = 0 ; $i < sizeof($request->get('services')) ; $i++){
+            $s = new \App\ServiceDetail;
+            $s->appointment_id  = $apt->id;
+            $s->service_id      = $request->get('services')[$i];
+            $s->save();
+        }
         if($status){
             return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
         }else{
@@ -124,7 +142,7 @@ class CheckUpController extends Controller
 
     public function past(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Appointment::selectRaw('*, @row:=@row+1 as row')->where('date_time', '<',date('Y-m-d'));
+        $data = \App\Appointment::selectRaw('*, appointments.id as a_id, @row:=@row+1 as row')->where('date_time', '<',date('Y-m-d'));
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -146,16 +164,16 @@ class CheckUpController extends Controller
             ->AddColumn('actions', function($column){
                 if(Auth::user()->account_type == 'admin'){
                     return '
-                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->id.'">
+                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->a_id.'">
                                     <i class="fa fa-list-alt"></i> Pre-Checkup<br> Details
                                 </button>
-                                <button class="btn-xs btn btn-success checkup-data-btn" data-id="'.$column->id.'">
+                                <button class="btn-xs btn btn-success checkup-data-btn" data-id="'.$column->a_id.'">
                                     <i class="fa fa-check"></i> Checkup <br>Details
                                 </button> ';
 
                 }else{
                     return '
-                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->id.'">
+                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->a_id.'">
                                     <i class="fa fa-list-alt"></i> Pre-Checkup<br> Details
                                 </button>';                 
                 }
