@@ -9,6 +9,21 @@
 		        $('#'+value).parent().addClass('has-error').find('.help-text').text(index.join(', '));
 		    });
 		}
+	sendMailToAppointments();
+	setInterval(function() {
+            // code to be repeated
+            sendMailToAppointments()
+      }, 300000); // every 5 minutes
+
+	function sendMailToAppointments() { 
+	  $.ajax({
+	   type: "GET",
+	   url: "send_mail_to_appointments", 
+	   success: function(msg){
+	   	console.log(msg);
+	   }
+	 });
+	}
 	</script>
 </body>
 

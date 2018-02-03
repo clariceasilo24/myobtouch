@@ -94,6 +94,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/get-cases_reports/{id}', 'ReportsController@getCasesReports');
     Route::get('appointment-reports', 'ReportsController@appointment_reports');
     Route::get('/get-appointment_reports', 'ReportsController@getAppointmentReports');
+
+    Route::get('/send_mail_to_appointments','AppointmentsController@sendMail');
 });
 
 Route::middleware('auth')->prefix('patients')->group(function () { 

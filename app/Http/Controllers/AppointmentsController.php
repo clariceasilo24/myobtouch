@@ -18,6 +18,12 @@ class AppointmentsController extends Controller
     public function index()
     {
 /*        Mail::to(['email'=>'baluma.joel91@gmail.com'])->send(new ApppointmentMail(1));*/
+        $this->sendMail();
+        return view('admin.appointments.index');
+    }
+
+    public function sendMail(){
+
         $recs = \App\Appointment::where('date_time', '=', DB::raw('DATE_SUB(DATE_FORMAT(now(), "%Y-%m-%d"), INTERVAL -1 DAY)'))
                                  ->where('mail_sent', 0)
                                  ->get();  
@@ -28,7 +34,6 @@ class AppointmentsController extends Controller
             $apt->save();
         }
 
-        return view('admin.appointments.index');
     }
 
  
