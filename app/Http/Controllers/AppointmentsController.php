@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApppointmentMail;
 class AppointmentsController extends Controller
 {
 
@@ -16,6 +17,17 @@ class AppointmentsController extends Controller
 
     public function index()
     {
+/*        Mail::to(['email'=>'baluma.joel91@gmail.com'])->send(new ApppointmentMail(1));*/
+        $recs = \App\Appointment::where('date_time', '=', DB::raw('DATE_SUB(DATE_FORMAT(now(), "%Y-%m-%d"), INTERVAL -1 DAY)'))
+                                 ->where('mail_sent', 0)
+                                 ->get();  
+        foreach($recs as $rec){ 
+            Mail::to(['email'=>$rec->patient->email])->send(new ApppointmentMail($rec->id));
+            $apt = \App\Appointment::find($rec->id);
+            $apt->mail_sent = 1;
+            $apt->save();
+        }
+
         return view('admin.appointments.index');
     }
 
