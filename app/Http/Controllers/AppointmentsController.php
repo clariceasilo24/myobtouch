@@ -43,17 +43,9 @@ class AppointmentsController extends Controller
         ]);
 
         $data['date_time'] = date('Y-m-d', strtotime($data['date_time']));
-        //$status = \App\Appointment::create($data); 
         $date = $data['date_time'];
-        $arr = [];
-        // $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->get();   
-        $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->get();   
-        foreach ($ids as $id) {
-           array_push($arr, $id->id);
-        }
 
-        $timeslots  = DB::table('time_slots')->whereNotIn('id', $arr)->get();
-        $data['timeslot_id'] = $timeslots[0]->id;
+         $data['timeslot_id'] = $this->getAvailableTimeSlot($date);
 
         try{
             $status = \App\Appointment::create($data); 
@@ -111,10 +103,12 @@ class AppointmentsController extends Controller
             'user_id'       => 'required',
             'patient_id'    => 'required',
             'status'    => 'required',
-            'timeslot_id'   => 'required'
         ]);
         
-        $data['date_time'] = date('Y-m-d', strtotime($data['date_time']));
+        $data['date_time'] = date('Y-m-d', strtotime($data['date_time'])); 
+        $date = $data['date_time'];
+
+        $data['timeslot_id'] = $this->getAvailableTimeSlot($date);
         $status = \App\Appointment::find($id)->update($data); 
         if($status){
             return response()->json(['success' => true, 'msg' => 'Appointment Successfully updated!']);
@@ -202,5 +196,17 @@ class AppointmentsController extends Controller
         $records  = DB::table('time_slots')->whereNotIn('id', $arr)->get();
         
         return response()->json(['records'=>$records]);
+    }
+
+    public function getAvailableTimeSlot($date){
+        $arr = [];
+        $ids = \App\Appointment::selectRaw('timeslot_id as tsid')->where('date_time', $date)->where('status','!=','canceled')->get();
+
+        foreach ($ids as $id) {
+           array_push($arr, $id->tsid);
+        }
+
+        $timeslots  = DB::table('time_slots')->whereNotIn('id', $arr)->get();
+        return $timeslots[0]->id;
     }
 }

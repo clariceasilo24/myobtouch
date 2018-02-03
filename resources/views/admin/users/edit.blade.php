@@ -13,7 +13,7 @@
           <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" autocomplete="false" value="{{ $user->username }}">
           <span class="help-text text-danger"></span>
       </div>
-      <div class="form-group">
+      <div class="form-group hidden">
           <label for="account_type">User Type</label>
           <select class="form-control" id="account_type" name="account_type">
             <option value="admin" {{ $user->account_type == 'admin'? 'selected':'' }}>Admin</option>

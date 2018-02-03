@@ -168,7 +168,15 @@
 
   </div>
 </div>
-
+<style type="text/css">
+  .pass{
+    font-family: monospace; 
+    color: black;
+  }
+  .swal2-content{
+    display: none;
+  }
+</style>
  
 <script type="text/javascript">
   $(function(){ 
@@ -185,8 +193,9 @@
           success: function(result){
             if(result.success){
               swal({
-                  title: result.msg,
-                  icon: "success"
+                  title: result.msg+ "<br>Patient  Password is: <b class='pass'>"+result.pass+"</b>",
+                  icon: "success",
+                  html: true
                 });
             }else{
               swal({

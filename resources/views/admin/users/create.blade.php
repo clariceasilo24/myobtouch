@@ -19,7 +19,7 @@
           <select class="form-control" id="account_type" name="account_type">
             <option value="admin">Admin</option>
             <option value="secretary">Secretary</option>
-            <option value="patient">Patient</option>
+            {{-- <option value="patient">Patient</option> --}}
           </select> 
           <span class="help-text text-danger"></span>
       </div>

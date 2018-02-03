@@ -128,21 +128,20 @@ class CheckUpController extends Controller
             }) 
 
             ->AddColumn('actions', function($column){
-                if(Auth::user()->account_type == 'admin'){
-                    return '
-                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->id.'">
+                /*if(Auth::user()->account_type == 'admin'){*/
+                    return     '<button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-list-alt"></i> Pre-Checkup<br> Details
                                 </button>
                                 <button class="btn-xs btn btn-success checkup-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-check"></i> Checkup <br>Details
-                                </button> ';
+                                </button>';
 
-                }else{
+                /*}else{
                     return '
                                 <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-list-alt"></i> Pre-Checkup<br> Details
                                 </button>';                 
-                }
+                }*/
                 
             }) 
             ->rawColumns(['actions','patient'])

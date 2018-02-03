@@ -69,7 +69,8 @@ class PatientControler extends Controller
         //$data2['password'] = bcrypt($data2['password']);
         
         //$data2['password'] = bcrypt('123456');
-        $data2['password'] = str_random(6);
+        $password = str_random(6);
+        $data2['password'] = bcrypt($password);
 
         $status2 = \App\User::create($data2); 
 
@@ -78,7 +79,7 @@ class PatientControler extends Controller
         
 
         if($status && $status2){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+            return response()->json(['success' => true, 'msg' => 'Data Successfully added!', 'pwd' => $password]);
         }else{
             return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
         }
@@ -179,10 +180,11 @@ class PatientControler extends Controller
      */
     public function destroy($id)
     {
-
         try{
 
             DB::beginTransaction();
+            $patient = \App\Patient::find($id);
+            $user = \App\User::find($patient->user_id)->destroy();
             $status = \App\Patient::destroy($id);  
             DB::commit();
             return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
@@ -211,6 +213,9 @@ class PatientControler extends Controller
                                 </button>
                                 <button class="btn-xs btn btn-info view-data-btn" data-id="'.$column->pd_id.'">
                                     <i class="fa fa-eye"></i> View
+                                </button> 
+                                <button class="btn-xs btn btn-info reset-data-btn" data-id="'.$column->pd_id.'">
+                                    <i class="fa fa-eye"></i> Reset Password
                                 </button> 
                                 <button class="btn-xs btn btn-danger delete-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-trash-o"></i> Delete
@@ -304,7 +309,7 @@ class PatientControler extends Controller
         //$status = \App\Appointment::create($data); 
         $date = $data['date_time'];
         $arr = [];
-        $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->get();   
+        $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status','!=' ,'canceled')->get();   
         foreach ($ids as $id) {
            array_push($arr, $id->id);
         }
@@ -323,5 +328,21 @@ class PatientControler extends Controller
             return response()->json($e->getMessage());
         }
         
+    }
+
+    public function resetPassword($id){
+
+        $patient = \App\Patient::find($id);
+
+        $new_password = str_random(6);
+        $user = \App\User::find($patient->user_id);
+        $user->password = bcrypt($new_password);
+        if($user->save()){
+            return response()->json(['success' => true, 'msg' => 'Password Successfully changed!', 'pass' => $new_password]);
+        }else{
+            return response()->json(['success' => false, 'msg' => 'An error occurred while changing password!']);
+        }
+
+
     }
 }

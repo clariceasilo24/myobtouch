@@ -67,6 +67,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::resource('/patients', 'PatientControler');
     Route::get('/get-patients', 'PatientControler@all');
     Route::get('/view_p/{id}', 'PatientControler@view_p');
+    Route::get('/reset_patient_pass/{id}', 'PatientControler@resetPassword');
 
 
     Route::resource('/cases', 'CasesController');

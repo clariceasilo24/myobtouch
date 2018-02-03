@@ -57,7 +57,7 @@
                 </tr>
                 <tr>
                   <td>Partner's Lastname:</td>
-                  <td><b>{{ $patient->lastname }}</b></td>
+                  <td><b>{{ $patient->p_lastname }}</b></td>
                 </tr>
                 <tr>
                   <td>Referred by:</td>

@@ -38,6 +38,18 @@
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="viewmodal"></div>
+<style type="text/css">
+  .pass{
+    font-family: monospace; 
+    color: black;
+  }
+  .swal2-content{
+    font-size: 30px;
+    padding-top: 15px;
+    display: none;
+  }
+</style>
+ 
 @endsection
 
 @section('scripts')
@@ -62,7 +74,7 @@
 		      "columns": [ 
 		        {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true}, 
 		        {data: 'name',  name: 'name', className: 'col-md-7 text-left',  searchable: true, sortable: true},  
-		        {data: 'actions',   name: 'actions', className: 'col-md-2 text-left',  searchable: false,  sortable: false},
+		        {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
 		      ], 
 		      'order': [[0, 'asc']]
 		    });
@@ -138,6 +150,29 @@
 		                 }
 		              }
 		          });
+		    });
+
+		    $(document).off('click','.reset-data-btn').on('click','.reset-data-btn', function(e){
+		      e.preventDefault();
+		      var that = this; 
+		      $.ajax({
+		        url: '/admin/reset_patient_pass/'+that.dataset.id,         
+		        success: function(result) {
+			            if(result.success){
+			            	console.log(result);
+			              swal({
+			                  title: "Password changed!  <br>New 	Password is: <b class='pass'>"+result.pass+"</b>",
+			                  html: true,
+			                  icon: "success",
+			                });
+			            }else{
+			              swal({
+			                  title: result.msg,
+			                  icon: "error"
+			                });
+			            }
+		        }
+		      }); 
 		    });
 		  });
 	</script>
