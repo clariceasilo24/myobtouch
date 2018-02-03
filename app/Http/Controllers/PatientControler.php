@@ -7,6 +7,7 @@ use DataTables;
 use DB;
 use Auth;
 use Illuminate\Support\Facades\Hash;
+
 class PatientControler extends Controller
 {
     public function __construct()
@@ -67,7 +68,8 @@ class PatientControler extends Controller
 
         //$data2['password'] = bcrypt($data2['password']);
         
-        $data2['password'] = bcrypt('123456');
+        //$data2['password'] = bcrypt('123456');
+        $data2['password'] = str_random(6);
 
         $status2 = \App\User::create($data2); 
 

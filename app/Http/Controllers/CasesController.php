@@ -42,7 +42,7 @@ class CasesController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'name' => 'required|string'
+            'name' => 'required|string|unique:cases,name'
         ]);
 
         $status = \App\Cases::create($data); 

@@ -44,7 +44,7 @@ class CheckUpController extends Controller
     }
 
     public function checkup($id){
-        $checkup = \App\CheckUp::where('appointment_id',$id)->first();
+        $checkup = \App\CheckUp::where('appointment_id',$id)->get();
         if(!sizeof($checkup)){
             return response()->json(['failed' => true, 'msg' => 'Appointment has no pre-checkup detail!']);
         }
@@ -53,6 +53,8 @@ class CheckUpController extends Controller
         if(!sizeof($checkup)){
             return response()->json(['failed' => true, 'msg' => 'Appointment already has no pre-checkup detail yet!']);
         }else{
+
+        $checkup = \App\CheckUp::where('appointment_id',$id)->first();
             return view('admin.check_up.check-up')->with('checkup', $checkup)->with('services', $services)->with('cases', $cases);
         }
     }
@@ -148,9 +150,12 @@ class CheckUpController extends Controller
     }
 
 
-    public function past(){
+    public function past(Request $request){
+        $date = $request->get('date');
+
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Appointment::selectRaw('*, appointments.id as a_id, @row:=@row+1 as row')->where('date_time', '<',date('Y-m-d'))->where('status', '=','approved')->get();
+        $data = \App\Appointment::selectRaw('*, @row:=@row+1 as row')->where('date_time', '=', date('Y-m-d', strtotime($date)))
+                                ->where('status', '=','served')->get();
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -163,17 +168,7 @@ class CheckUpController extends Controller
                return date('H:i A', strtotime($column->timeslot->from)).' - '.date('H:i A', strtotime($column->timeslot->to));
             })
             ->AddColumn('status', function($column){
-/*               return $column->status == 'pending' ? '<span class="label badge-pill label-warning">'.$column->status.'</span>':'<span class="label badge-pill label-danger">'.$column->status.'</span>';*/
-              if($column->status == 'pending'){
-                return '<span class="label badge-pill label-warning">'.$column->status.'</span>';     
-                }
-                if($column->status == 'approved'){
-                return '<span class="label badge-pill label-info">'.$column->status.'</span>';   
-                }
-                if($column->status == 'served'){
-                return '<span class="label badge-pill label-success">'.$column->status.'</span>';    
-                } 
-               return '<span class="label badge-pill label-danger">'.$column->status.'</span>';
+               return $column->status == 'pending' ? '<span class="label badge-pill label-warning">'.$column->status.'</span>':'<span class="label badge-pill label-danger">'.$column->status.'</span>';
             })
             ->AddColumn('scheduled_by', function($column){
                return $column->user->username;
@@ -182,16 +177,16 @@ class CheckUpController extends Controller
             ->AddColumn('actions', function($column){
                 if(Auth::user()->account_type == 'admin'){
                     return '
-                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->a_id.'">
+                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-list-alt"></i> Pre-Checkup<br> Details
                                 </button>
-                                <button class="btn-xs btn btn-success checkup-data-btn" data-id="'.$column->a_id.'">
+                                <button class="btn-xs btn btn-success checkup-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-check"></i> Checkup <br>Details
                                 </button> ';
 
                 }else{
                     return '
-                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->a_id.'">
+                                <button class="btn-xs btn btn-warning precheckup-data-btn" data-id="'.$column->id.'">
                                     <i class="fa fa-list-alt"></i> Pre-Checkup<br> Details
                                 </button>';                 
                 }

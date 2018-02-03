@@ -46,7 +46,8 @@ class AppointmentsController extends Controller
         //$status = \App\Appointment::create($data); 
         $date = $data['date_time'];
         $arr = [];
-        $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->get();   
+        // $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->where('status', 'pending')->get();   
+        $ids = \App\Appointment::selectRaw('timeslot_id as id')->where('date_time', $date)->get();   
         foreach ($ids as $id) {
            array_push($arr, $id->id);
         }

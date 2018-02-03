@@ -42,7 +42,7 @@ class ServicesController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'name' => 'required|string|max:30', 
+            'name' => 'required|string|max:30|unique:services,name', 
             'description' => 'required|string',
             'charge' => 'required|numeric|min:1'
         ]);

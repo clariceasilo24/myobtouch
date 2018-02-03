@@ -239,11 +239,19 @@
         var d = new Date($('[name="last_menstruation_date"]').val());
         var dd = d.setDate(d.getDate()+7);
         var day = d.getDate();
+        // var month = (d.getMonth());
         var month = (d.getMonth()+1)-3;
-        var year = d.getFullYear()+1;
+        //var year = d.getFullYear()+1;
+        var year = d.getFullYear();
+
         if(month < 1){
           month = month + 12;
         }
+        else
+        {
+          year = d.getFullYear()+1;
+        }
+
         console.log(year+'-'+month+'-'+day);
         $('.edc').val(year+'-'+month+'-'+day);
         $("#edc").html(getmonthName(month-1) +' '+day+', '+year);

@@ -8,7 +8,7 @@
 			<div class="main-content p-1 py-5">
 				<div class="container-fluid">
 					<!-- OVERVIEW -->
-					<div class="panel panel-headline col-md-6 p-4">
+					<div class="panel panel-headline col-md-12 p-4">
 						<div class="panel-heading p-0">
 							<h3 class="panel-title">
 								Appointments for Today (<b>{{ date('F d, Y') }}</b>)
@@ -28,16 +28,23 @@
 							</div>
 						</div>
 					</div>   
-
-					<div class="panel panel-headline col-md-6 p-4 hidden">
+					<div class="panel panel-headline col-md-12 p-4">
 						<div class="panel-heading p-0">
 							<h3 class="panel-title">
-								Past Appointments
+								Past Appointments 
+
+		                        <div class="input-group date col-md-4" data-provide="datepicker" id="date">
+		                            <input type="text" class="form-control" name="date" value="{{ date('m/d/Y') }}">
+		                            <div class="input-group-addon">
+		                                <span class="glyphicon glyphicon-th"></span>
+		                            </div>
+		                        </div>
 							</h3>
 						</div>
-						<div class="panel-body p-0 pl"> 
+						<div class="panel-body p-0"> 
 							<div class="row">
 								<div class="col-md-12">
+								
 									<table class="table table-bordered table-hover" id="past-appointments-table" style="width: 100%;">
 										<thead class=""> 
 											<th>Time - Patient</th>  
@@ -48,7 +55,6 @@
 							</div>
 						</div>
 					</div>   
-
 				</div>
 			</div>
 			<!-- END MAIN CONTENT -->
@@ -94,7 +100,7 @@
 		      bProcessing: true,
 		      bServerSide: false,
 		      sServerMethod: "GET",
-		      'ajax': '/admin/get-appointments-past',
+		      'ajax': '/admin/get-appointments-past?date='+$('[name="date"]').val(),
 		      searching: false, 
 		      paging: false, 
 		      filtering:false, 
@@ -154,6 +160,12 @@
 		          }); 
 		    });
 
+
+        $('#date').datepicker(); 
+        $('[name="date"]').change(function(){
+        	
+            $("#past-appointments-table").DataTable().ajax.url( '/admin/get-appointments-past?date='+$('[name="date"]').val() ).load();
+        });
 		  });
 
 		
